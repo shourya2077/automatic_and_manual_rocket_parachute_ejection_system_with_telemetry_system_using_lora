@@ -1,6 +1,6 @@
   /*
   * ============================================================
-  *  ROCKET PARACHUTE EJECTION SYSTEM  v4.0  — GROUND STATION
+  *  ROCKET PARACHUTE EJECTION SYSTEM   — GROUND STATION
   *  Hardware: ESP32 + LoRa SX1278
   *  WiFi: Access Point  |  Web UI at http://192.168.4.1
   * ============================================================
@@ -10,14 +10,7 @@
   *
   *  MUST match rocket LoRa settings exactly.
   *
-  *  KEY FIXES in v4.0:
-  *    1. Correct 24-field packet parsing (added accelX/Y/Z)
-  *    2. ACK packet parsing — shows command confirmation on UI
-  *    3. Log download: receives L/LC/LE packets, serves as CSV
-  *    4. Command retry: important cmds sent 3x with 50ms gap
-  *    5. Ground station buffers last 500 telemetry samples for CSV
-  *    6. SF7 (matches rocket) for faster link
-  * ============================================================
+  
   */
 
   #include <WiFi.h>
