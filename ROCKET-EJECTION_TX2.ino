@@ -1,7 +1,7 @@
 /*
  * ================================================================
- *  ROCKET PARACHUTE EJECTION SYSTEM  v6.0  — ROCKET (TX) NODE
- *  Hardware confirmed working:
+ *  ROCKET PARACHUTE EJECTION SYSTEM    — ROCKET (TX) NODE
+ * 
  *    BMP280  at I2C 0x76  (chip_id 0x58)
  *    MPU-6500 at I2C 0x68 (WHO_AM_I 0x70)
  *    LoRa SX1278, 2x Servo, ESP32 DevKit v1 38-pin
@@ -30,10 +30,6 @@
  *    BMP280  CSB → 3V3   (enables I2C mode, not SPI)
  *    MPU-6500 AD0 → GND  (locks address to 0x68)
  *
- *  PULLUP RESISTORS:
- *    Keep pullups on ONE module only. If both modules have 4.7k
- *    pullups, desolder or lift the resistors on one of them.
- *    Two 4.7k in parallel = 2.35k, causes bus instability.
  *
  *  LoRa SPI (separate bus, no conflict with I2C):
  *    NSS=GPIO5  SCK=GPIO18  MISO=GPIO19  MOSI=GPIO23
@@ -71,13 +67,10 @@
 #define PIN_LORA_DIO0  2
 
 // ── I2C ──────────────────────────────────────────────────────
-// 80 kHz: reliable for BMP280 clones + MPU-6500 on the same bus.
-// Wire.setTimeout() is the correct ESP32 Arduino core method.
-// Wire.setWireTimeout() does not exist and will not compile.
 #define I2C_HZ        80000
 #define I2C_TIMEOUT   30     // ms — prevents infinite hang on stuck bus
 
-// ── Confirmed I2C addresses (from hardware scan) ─────────────
+// ── I2C addresses (from hardware scan) ─────────────
 #define BMP_ADDR      0x76
 #define MPU_ADDR      0x68
 
@@ -244,7 +237,6 @@ void wireStart() {
 }
 
 // Release a device holding SDA low by bit-banging 9 clock pulses.
-// This is the correct recovery for a stuck I2C bus.
 void busRecover() {
   Wire.end();
   delay(10);
@@ -937,7 +929,6 @@ void setup() {
 
   // Start I2C bus
   // Wire.setTimeout(ms) is the correct ESP32 Arduino core method.
-  // Wire.setWireTimeout() does not exist and will not compile.
   wireStart();
   delay(100);
 
